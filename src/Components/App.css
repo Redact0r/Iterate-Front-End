@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-right: 1em;
+}
+
+.navh3 {
+  margin-right: 15em;
+  font-style: italic;
+  font-size: 24pt;
+  margin-left: 1em;
+}
+
+.navlinks {
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  text-align: center;
+}
