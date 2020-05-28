@@ -15,6 +15,15 @@ class UserWorksList extends Component {
     });
   }
 
+  //implement below with Context
+  componentDidUpdate() {
+    IterateApi.get().then((data) => {
+      this.setState({
+        works: data,
+      });
+    });
+  }
+
   handleDelete(e) {
     let id = e.target.id.slice(8, e.target.id.length);
     IterateApi.delete(id);
@@ -22,7 +31,14 @@ class UserWorksList extends Component {
 
   handleEdit(e) {
     let id = e.target.id.slice(9, e.target.id.length);
-    console.log(id);
+
+    //test obj - will be able to render from state once Context is wired up
+    const updateObj = {
+      title: "I got changed",
+      content: "this proves it!",
+      wordCount: "3",
+    };
+    IterateApi.patch(id, updateObj);
   }
 
   render() {

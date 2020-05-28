@@ -4,3 +4,20 @@
   justify-content: center;
   align-items: center;
 }
+
+.div-write-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-writing-box {
+  display: flex;
+  flex-direction: column;
+}
+
+#writing-box {
+  width: 400px;
+  height: 200px;
+}

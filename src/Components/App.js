@@ -7,6 +7,7 @@ import Profile from "./profile/Profile";
 import "./App.css";
 import Login from "./Login";
 import IterateApi from "./fetch/IterateApi";
+import UserContext from "./UserContext";
 
 class App extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class App extends Component {
     this.state = {
       isLoggedIn: true,
       wordCount: 0,
-      DailyWritingGoal: 5,
+      DailyWritingGoal: 500,
       streak: 0,
       boxTitle: "",
       boxContent: "",
@@ -95,7 +96,7 @@ class App extends Component {
     });
   };
 
-  handleSave = (event) => {
+  handleStartNew = (event) => {
     event.preventDefault();
     const newWorks = {
       title: this.state.boxTitle,
@@ -108,51 +109,55 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <Nav />
-        <Switch>
-          <Route
-            path="/"
-            exact
-            render={(props) => <Greeting isLoggedIn={this.state.isLoggedIn} />}
-          />
-          <Route
-            path="/write"
-            render={(props) => (
-              <Write
-                handleTitleChange={this.handleTitleChange}
-                handleSave={this.handleSave}
-                handleContentChange={this.handleContentChange}
-                wordCount={this.state.wordCount}
-                DailyWritingGoal={this.state.DailyWritingGoal}
-                handleKeypress={this.handleKeypress}
-                streak={this.state.streak}
-                NovelWordCount={this.state.NovelWordCount}
-              />
-            )}
-          />
-          <Route
-            path="/profile"
-            exact
-            render={(props) => (
-              <Profile
-                handleDayCheck={this.handleDayCheck}
-                daysChecked={this.state.daysChecked}
-                handleDailyGoalSelector={this.handleDailyGoalSelector}
-                isLoggedIn={this.state.isLoggedIn}
-                DailyWritingGoal={this.state.DailyWritingGoal}
-                handleWorksClick={this.handleWorksClick}
-                selected={this.state.goalSelector}
-              />
-            )}
-          />
-          <Route
-            path="/login"
-            exact
-            render={(props) => <Login isLoggedIn={this.state.isLoggedIn} />}
-          />
-        </Switch>
-      </Router>
+      <UserContext.Provider>
+        <Router>
+          <Nav />
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={(props) => (
+                <Greeting isLoggedIn={this.state.isLoggedIn} />
+              )}
+            />
+            <Route
+              path="/write"
+              render={(props) => (
+                <Write
+                  handleTitleChange={this.handleTitleChange}
+                  handleStartNew={this.handleStartNew}
+                  handleContentChange={this.handleContentChange}
+                  wordCount={this.state.wordCount}
+                  DailyWritingGoal={this.state.DailyWritingGoal}
+                  handleKeypress={this.handleKeypress}
+                  streak={this.state.streak}
+                  NovelWordCount={this.state.NovelWordCount}
+                />
+              )}
+            />
+            <Route
+              path="/profile"
+              exact
+              render={(props) => (
+                <Profile
+                  handleDayCheck={this.handleDayCheck}
+                  daysChecked={this.state.daysChecked}
+                  handleDailyGoalSelector={this.handleDailyGoalSelector}
+                  isLoggedIn={this.state.isLoggedIn}
+                  DailyWritingGoal={this.state.DailyWritingGoal}
+                  handleWorksClick={this.handleWorksClick}
+                  selected={this.state.goalSelector}
+                />
+              )}
+            />
+            <Route
+              path="/login"
+              exact
+              render={(props) => <Login isLoggedIn={this.state.isLoggedIn} />}
+            />
+          </Switch>
+        </Router>
+      </UserContext.Provider>
     );
   }
 }

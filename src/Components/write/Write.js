@@ -1,47 +1,69 @@
-import React, { Component } from "react";
+import React, { useState, useContext } from "react";
 import "./Write.css";
 import Rewards from "./Rewards";
+import UserContext from "../UserContext";
+import IterateApi from "../fetch/IterateApi";
+import CountGoalsStreak from "./CountGoalsStreak";
 
-class Write extends Component {
-  render() {
-    return (
-      <div className="div-write">
-        <h2>Write.</h2>
-        <div className="div-write-text">
-          <form className="form-writing-box" id="form-write-box">
-            <input
-              type="text"
-              placeholder="Title"
-              onChange={(e) => {
-                this.props.handleTitleChange(e);
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Start writing."
-              className="box write"
-              id="writing-box"
-              onChange={(e) => {
-                this.props.handleKeypress(e);
-                this.props.handleContentChange(e);
-              }}
-            />
-            <input
-              type="submit"
-              value="Save"
-              onClick={(e) => {
-                this.props.handleSave(e);
-              }}
-            />
-          </form>
-          <div className="div-write-text-tracker">
-            {`Count: ${this.props.wordCount} | Goals: ${this.props.DailyWritingGoal} | Streak: ${this.props.streak}`}
-            <Rewards streak={this.props.streak} />
-          </div>
-        </div>
+const Write = () => {
+  const context = useContext(UserContext);
+
+  const handleKeypress = (e) => {
+    context.boxContent = e.target.value;
+    let eventString = e.target.value;
+    let liveWordCount = eventString.split(" ").length;
+    context.wordCount = liveWordCount;
+    console.log(context.wordCount);
+    if (context.wordCount === context.DailyWritingGoal) {
+      context.streak++;
+    }
+  };
+
+  const handleStartNew = (event) => {
+    event.preventDefault();
+    const newWorks = {
+      title: context.boxTitle,
+      content: context.boxContent,
+      wordCount: context.wordCount,
+    };
+    IterateApi.post(newWorks);
+    console.log(newWorks);
+  };
+
+  return (
+    <div className="div-write">
+      <h2>Write.</h2>
+      <div className="div-write-text">
+        <form className="form-writing-box" id="form-write-box">
+          <input
+            type="text"
+            placeholder="Title"
+            onChange={(e) => (context.boxTitle = e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Start writing."
+            className="box write"
+            id="writing-box"
+            onChange={(e) => handleKeypress(e)}
+          />
+          <input
+            type="submit"
+            value="Save"
+            onClick={(e) => {
+              handleStartNew(e);
+            }}
+          />
+        </form>
+        <CountGoalsStreak
+          wordCount={context.wordCount}
+          DailyWritingGoal={context.DailyWritingGoal}
+          streak={context.streak}
+        />
+        <Rewards />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Write;
