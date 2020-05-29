@@ -14,9 +14,11 @@ class App extends Component {
     super(props);
     this.state = {
       isLoggedIn: true,
+      works: [],
       wordCount: 0,
       DailyWritingGoal: 500,
       streak: 0,
+      currentWorkId: null,
       boxTitle: "",
       boxContent: "",
       daysChecked: {
@@ -36,6 +38,32 @@ class App extends Component {
       },
     };
     this.handleDayCheck = this.handleDayCheck.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+  }
+
+  componentDidMount() {
+    IterateApi.get().then((data) => {
+      this.setState({
+        works: data,
+      });
+    });
+  }
+
+  //API Calls
+  handleEdit(e, title, content, wordcount) {
+    let id = e.target.id.slice(9, e.target.id.length);
+    console.log(e.target, id, title, content, wordcount);
+    this.setState({
+      currentWorkId: id,
+      boxTitle: title,
+      boxContent: content,
+      wordCount: wordcount,
+    });
+  }
+
+  handleDelete(e) {
+    let id = e.target.id.slice(8, e.target.id.length);
+    IterateApi.delete(id);
   }
 
   handleDayCheck(e) {
@@ -58,7 +86,7 @@ class App extends Component {
     this.setState({
       wordCount: liveWordCount,
     });
-    if (this.state.wordCount === this.state.DailyWritingGoal) {
+    if (this.state.wordCount >= this.state.DailyWritingGoal) {
       this.setState({
         streak: +1,
       });
@@ -96,65 +124,69 @@ class App extends Component {
     });
   };
 
-  handleStartNew = (event) => {
+  handleSave = (event) => {
     event.preventDefault();
-    const newWorks = {
-      title: this.state.boxTitle,
-      content: this.state.boxContent,
-      wordCount: this.state.wordCount,
-    };
-    IterateApi.post(newWorks);
-    console.log(newWorks);
+    if (this.state.currentWorkId == null) {
+      const newWorks = {
+        title: this.state.boxTitle,
+        content: this.state.boxContent,
+        wordCount: this.state.wordCount,
+      };
+      return IterateApi.post(newWorks);
+    }
+    if (this.state.currentWorkdId !== null) {
+      let id = this.state.currentWorkId;
+      const updateObj = {
+        title: this.state.boxTitle,
+        content: this.state.boxContent,
+        wordCount: this.state.wordCount,
+      };
+      IterateApi.patch(id, updateObj);
+    }
+  };
+
+  handleStartNew = (event) => {
+    this.handleSave(event);
+    this.setState({
+      boxTitle: "",
+      boxContent: "",
+      wordCount: 0,
+      currentWorkId: null,
+    });
   };
 
   render() {
+    const contextValues = {
+      isLoggedIn: this.state.isLoggedIn,
+      works: this.state.works,
+      wordCount: this.state.wordCount,
+      DailyWritingGoal: this.state.DailyWritingGoal,
+      streak: this.state.streak,
+      boxTitle: this.state.boxTitle,
+      boxContent: this.state.boxContent,
+      daysChecked: this.state.daysChecked,
+      goalSelector: this.state.goalSelector,
+      currentWorkId: this.state.currentWorkId,
+      handleSave: this.handleSave,
+      handleTitleChange: this.handleTitleChange,
+      handleContentChange: this.handleContentChange,
+      handleDailyGoalSelector: this.handleDailyGoalSelector,
+      handleKeypress: this.handleKeypress,
+      handleDayCheck: this.handleDayCheck,
+      handleStartNew: this.handleStartNew,
+      handleDelete: this.handleDelete,
+      handleEdit: this.handleEdit,
+    };
+
     return (
-      <UserContext.Provider>
+      <UserContext.Provider value={contextValues}>
         <Router>
           <Nav />
           <Switch>
-            <Route
-              path="/"
-              exact
-              render={(props) => (
-                <Greeting isLoggedIn={this.state.isLoggedIn} />
-              )}
-            />
-            <Route
-              path="/write"
-              render={(props) => (
-                <Write
-                  handleTitleChange={this.handleTitleChange}
-                  handleStartNew={this.handleStartNew}
-                  handleContentChange={this.handleContentChange}
-                  wordCount={this.state.wordCount}
-                  DailyWritingGoal={this.state.DailyWritingGoal}
-                  handleKeypress={this.handleKeypress}
-                  streak={this.state.streak}
-                  NovelWordCount={this.state.NovelWordCount}
-                />
-              )}
-            />
-            <Route
-              path="/profile"
-              exact
-              render={(props) => (
-                <Profile
-                  handleDayCheck={this.handleDayCheck}
-                  daysChecked={this.state.daysChecked}
-                  handleDailyGoalSelector={this.handleDailyGoalSelector}
-                  isLoggedIn={this.state.isLoggedIn}
-                  DailyWritingGoal={this.state.DailyWritingGoal}
-                  handleWorksClick={this.handleWorksClick}
-                  selected={this.state.goalSelector}
-                />
-              )}
-            />
-            <Route
-              path="/login"
-              exact
-              render={(props) => <Login isLoggedIn={this.state.isLoggedIn} />}
-            />
+            <Route path="/" exact component={(props) => <Greeting />} />
+            <Route path="/write" render={(props) => <Write />} />
+            <Route path="/profile" exact render={(props) => <Profile />} />
+            <Route path="/login" exact render={(props) => <Login />} />
           </Switch>
         </Router>
       </UserContext.Provider>

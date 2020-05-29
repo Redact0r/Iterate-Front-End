@@ -18,7 +18,7 @@ const IterateApi = {
       if (!res.json()) {
         alert("Something went wrong");
       }
-      alert("Saved!");
+      alert("New work saved!");
     });
   },
   delete(id) {
@@ -32,6 +32,11 @@ const IterateApi = {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updateObj),
+    }).then((res) => {
+      if (!res.json()) {
+        alert("Something went wrong");
+      }
+      alert("Current work saved!");
     });
   },
 };
