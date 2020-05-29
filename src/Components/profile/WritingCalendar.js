@@ -7,11 +7,15 @@ export default class WritingCalendar extends Component {
     return (
       <div className="div-writingcalendar">
         {this.dayArray}
-        <label htmlFor="user-writing-days">I Write On:</label>
+        <label htmlFor="user-writing-days"></label>
         <form id="user-writing-days">
-          <label htmlFor="M">
+          <label
+            className={`${this.context.daysChecked.M} day-btn-label`}
+            htmlFor="M"
+          >
             Monday
             <input
+              className="day-btn"
               type="checkbox"
               id="M"
               value="M"
@@ -19,9 +23,13 @@ export default class WritingCalendar extends Component {
               checked={this.context.daysChecked.M}
             />
           </label>
-          <label htmlFor="T">
+          <label
+            className={`${this.context.daysChecked.T} day-btn-label`}
+            htmlFor="T"
+          >
             Tuesday
             <input
+              className="day-btn"
               type="checkbox"
               id="T"
               value="T"
@@ -29,9 +37,13 @@ export default class WritingCalendar extends Component {
               checked={this.context.daysChecked.T}
             />
           </label>
-          <label htmlFor="W">
+          <label
+            className={`${this.context.daysChecked.W} day-btn-label`}
+            htmlFor="W"
+          >
             Wednesday
             <input
+              className="day-btn"
               type="checkbox"
               id="W"
               value="W"
@@ -39,9 +51,13 @@ export default class WritingCalendar extends Component {
               checked={this.context.daysChecked.W}
             />
           </label>
-          <label htmlFor="R">
+          <label
+            className={`${this.context.daysChecked.R} day-btn-label`}
+            htmlFor="R"
+          >
             Thursday
             <input
+              className="day-btn"
               type="checkbox"
               id="R"
               value="R"
@@ -49,9 +65,13 @@ export default class WritingCalendar extends Component {
               checked={this.context.daysChecked.R}
             />
           </label>
-          <label htmlFor="F">
+          <label
+            className={`${this.context.daysChecked.F} day-btn-label`}
+            htmlFor="F"
+          >
             Friday
             <input
+              className="day-btn"
               type="checkbox"
               id="F"
               value="F"
@@ -59,9 +79,13 @@ export default class WritingCalendar extends Component {
               checked={this.context.daysChecked.F}
             />
           </label>
-          <label htmlFor="S">
+          <label
+            className={`${this.context.daysChecked.S} day-btn-label`}
+            htmlFor="S"
+          >
             Saturday
             <input
+              className="day-btn"
               type="checkbox"
               id="S"
               value="S"
@@ -70,12 +94,18 @@ export default class WritingCalendar extends Component {
             />
           </label>
           <label
+            className={`${this.context.daysChecked.U} day-btn-label`}
             htmlFor="U"
-            onChange={this.context.handleDayCheck}
-            checked={this.context.daysChecked.U}
           >
             Sunday
-            <input type="checkbox" id="U" value="U" />
+            <input
+              className="day-btn"
+              type="checkbox"
+              id="U"
+              value="U"
+              onChange={this.context.handleDayCheck}
+              checked={this.context.daysChecked.U}
+            />
           </label>
         </form>
       </div>

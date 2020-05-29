@@ -24,7 +24,7 @@ class UserWorksList extends Component {
                 id={work.id}
                 title={work.title}
                 content={work.content}
-                wordCount={work.wordCount}
+                wordCount={work.wordcount}
                 handleDelete={this.context.handleDelete}
                 handleEdit={this.context.handleEdit}
               />

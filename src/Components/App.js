@@ -36,6 +36,7 @@ class App extends Component {
         King: false,
         Fox: false,
       },
+      animationClassName: "",
     };
     this.handleDayCheck = this.handleDayCheck.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
@@ -52,7 +53,6 @@ class App extends Component {
   //API Calls
   handleEdit(e, title, content, wordcount) {
     let id = e.target.id.slice(9, e.target.id.length);
-    console.log(e.target, id, title, content, wordcount);
     this.setState({
       currentWorkId: id,
       boxTitle: title,
@@ -91,6 +91,8 @@ class App extends Component {
         streak: +1,
       });
     }
+    this.handleAnimationKeypress(event);
+    this.stopAnimate();
   };
 
   handleDailyGoalSelector = (event) => {
@@ -130,18 +132,18 @@ class App extends Component {
       const newWorks = {
         title: this.state.boxTitle,
         content: this.state.boxContent,
-        wordCount: this.state.wordCount,
+        wordcount: this.state.wordCount,
       };
       return IterateApi.post(newWorks);
     }
     if (this.state.currentWorkdId !== null) {
       let id = this.state.currentWorkId;
-      const updateObj = {
+      const updatedObj = {
         title: this.state.boxTitle,
         content: this.state.boxContent,
-        wordCount: this.state.wordCount,
+        wordcount: this.state.wordCount,
       };
-      IterateApi.patch(id, updateObj);
+      IterateApi.patch(id, updatedObj);
     }
   };
 
@@ -153,6 +155,20 @@ class App extends Component {
       wordCount: 0,
       currentWorkId: null,
     });
+  };
+
+  handleAnimationKeypress = (event) => {
+    this.setState({
+      animationClassName: "animate",
+    });
+  };
+
+  stopAnimate = () => {
+    setTimeout(() => {
+      this.setState({
+        animationClassName: "",
+      });
+    }, 4000);
   };
 
   render() {
@@ -176,6 +192,9 @@ class App extends Component {
       handleStartNew: this.handleStartNew,
       handleDelete: this.handleDelete,
       handleEdit: this.handleEdit,
+      handleAnimationKeypress: this.handleAnimationKeypress,
+      animationClassName: this.state.animationClassName,
+      stopAnimate: this.stopAnimate,
     };
 
     return (

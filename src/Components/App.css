@@ -1,5 +1,6 @@
-.App {
+body {
   text-align: center;
+  background-color: rgb(70, 83, 140);
 }
 
 .nav {
@@ -8,13 +9,17 @@
   justify-content: space-around;
   align-items: center;
   margin-right: 1em;
+  background: rgb(49, 58, 97);
+  width: 100%;
 }
 
 .navh3 {
   margin-right: 15em;
   font-style: italic;
   font-size: 24pt;
-  margin-left: 1em;
+  margin-left: em;
+  color: white;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .navlinks {
@@ -23,6 +28,9 @@
   justify-content: space-around;
   align-items: center;
   list-style: none;
+  color: white;
+  margin-left: 1em;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 h1,

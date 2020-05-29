@@ -27,15 +27,12 @@ const IterateApi = {
       headers: { "Content-Type": "application/json" },
     });
   },
-  patch(id, updateObj) {
+  patch(id, updatedObj) {
     return fetch(`${baseUrl}/id/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updateObj),
-    }).then((res) => {
-      if (!res.json()) {
-        alert("Something went wrong");
-      }
+      body: JSON.stringify(updatedObj),
+    }).then(() => {
       alert("Current work saved!");
     });
   },

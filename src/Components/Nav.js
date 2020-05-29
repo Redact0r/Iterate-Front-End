@@ -8,13 +8,13 @@ class Nav extends Component {
         <h3 className="navh3">Iterate.</h3>
         <ul className="navlinks">
           <Link to="/login">
-            <li>Login</li>
+            <li className="navlinks">Login</li>
           </Link>
           <Link to="/write">
-            <li>Write</li>
+            <li className="navlinks">Write</li>
           </Link>
           <Link to="/profile">
-            <li>Profile</li>
+            <li className="navlinks">Profile</li>
           </Link>
         </ul>
       </nav>

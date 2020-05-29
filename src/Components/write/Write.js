@@ -7,7 +7,6 @@ class Write extends Component {
   static contextType = UserContext;
 
   render() {
-    console.log(this.context);
     return (
       <div className="div-write">
         <h2>Write.</h2>
@@ -16,12 +15,13 @@ class Write extends Component {
             <input
               type="text"
               placeholder="Title"
+              id="box-title"
               value={this.context.boxTitle}
               onChange={(e) => {
                 this.context.handleTitleChange(e);
               }}
             />
-            <input
+            <textarea
               type="text"
               placeholder="Start writing."
               className="box write"
@@ -32,24 +32,37 @@ class Write extends Component {
                 this.context.handleContentChange(e);
               }}
             />
-            <input
-              type="submit"
-              value="Save"
-              onClick={(e) => {
-                this.context.handleSave(e);
-              }}
-            />
-            <input
-              type="button"
-              value="Start New"
-              onClick={(e) => {
-                this.context.handleStartNew(e);
-              }}
-            />
+            <div className="div-write-text-tracker">
+              {`Count: ${this.context.wordCount} | Goals: ${this.context.DailyWritingGoal} | Streak: ${this.context.streak}`}
+              <Rewards streak={this.context.streak} />
+            </div>
+            <div className="btn-div">
+              <input
+                type="submit"
+                value="Save"
+                className="writing-btn"
+                onClick={(e) => {
+                  this.context.handleSave(e);
+                }}
+              />
+              <input
+                type="button"
+                value="Start New"
+                className="writing-btn"
+                onClick={(e) => {
+                  this.context.handleStartNew(e);
+                }}
+              />
+            </div>
           </form>
-          <div className="div-write-text-tracker">
-            {`Count: ${this.context.wordCount} | Goals: ${this.context.DailyWritingGoal} | Streak: ${this.context.streak}`}
-            <Rewards streak={this.context.streak} />
+          <div className="div-animation">
+            <img
+              src="https://i.ya-webdesign.com/images/black-pen-png-6.png"
+              alt="jumping pen"
+              id="pen"
+              width="100px"
+              className={this.context.animationClassName}
+            />
           </div>
         </div>
       </div>

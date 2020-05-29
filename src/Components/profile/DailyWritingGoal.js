@@ -6,7 +6,7 @@ export default class DailyWritingGoal extends Component {
   render() {
     return (
       <div className="div-dailywritinggoal">
-        <label htmlFor="daily-goal-selector">Daily Goal: </label>
+        <label htmlFor="daily-goal-selector">I want to write like... </label>
         <select
           className="select-goal"
           id="daily-goal-selector"

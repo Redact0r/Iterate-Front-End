@@ -4,6 +4,7 @@ const UserContext = createContext({
   isLoggedIn: true,
   works: [],
   wordCount: 0,
+  animationClassName: "",
   DailyWritingGoal: 500,
   streak: 0,
   currentWorkId: null,
@@ -33,6 +34,8 @@ const UserContext = createContext({
   handleStartNew: () => {},
   handleDelete: () => {},
   handleEdit: () => {},
+  handleAnimationKeypress: () => {},
+  stopAnimate: () => {},
 });
 
 export default UserContext;
