@@ -1,10 +1,23 @@
 import React, { Component } from "react";
 import "./Write.css";
-import Rewards from "./Rewards";
+import Message from "../Message";
 import UserContext from "../UserContext";
 
 class Write extends Component {
   static contextType = UserContext;
+
+  renderRewardMessage() {
+    let novelCount = 80000 / this.context.DailyWritingGoal;
+    return this.context.wordCount >= this.context.DailyWritingGoal ? (
+      <Message
+        isShow={true}
+        message={`Congrats! If you wrote like this every day, you would finish a novel
+      in ${novelCount} days!`}
+      />
+    ) : (
+      <></>
+    );
+  }
 
   render() {
     return (
@@ -34,7 +47,7 @@ class Write extends Component {
             />
             <div className="div-write-text-tracker">
               {`Count: ${this.context.wordCount} | Goals: ${this.context.DailyWritingGoal} | Streak: ${this.context.streak}`}
-              <Rewards streak={this.context.streak} />
+              {this.renderRewardMessage()}
             </div>
             <div className="btn-div">
               <input

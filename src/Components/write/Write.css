@@ -54,6 +54,7 @@ h2 {
 
 .writing-btn:hover {
   opacity: 0.5;
+  cursor: pointer;
 }
 
 .div-write-text-tracker {

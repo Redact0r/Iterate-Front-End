@@ -1,16 +1,16 @@
-import React, { Component } from "react";
+import TokenService from "../../services/token-service";
+import config from "../../config";
 
-const baseUrl = "http://localhost:8080/myworks";
 const IterateApi = {
-  get() {
-    return fetch(baseUrl)
+  get(userid) {
+    return fetch(`${config.API_ENDPOINT}/myworks?userid=${userid}`)
       .then((res) => res.json())
       .then((data) => {
         return data;
       });
   },
   post(newWorks) {
-    return fetch(baseUrl, {
+    return fetch(`${config.API_ENDPOINT}/myworks`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newWorks),
@@ -22,13 +22,13 @@ const IterateApi = {
     });
   },
   delete(id) {
-    return fetch(`${baseUrl}/id/${id}`, {
+    return fetch(`${config.API_ENDPOINT}/myworks/id/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
   },
   patch(id, updatedObj) {
-    return fetch(`${baseUrl}/id/${id}`, {
+    return fetch(`${config.API_ENDPOINT}/myworks/id/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedObj),

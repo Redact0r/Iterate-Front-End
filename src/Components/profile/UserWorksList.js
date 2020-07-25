@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import UserWorks from "./UserWorks";
 import UserContext from "../UserContext";
+import IterateApi from "../fetch/IterateApi";
 
 class UserWorksList extends Component {
   static contextType = UserContext;
@@ -18,17 +19,21 @@ class UserWorksList extends Component {
             </tr>
           </thead>
           <tbody className="tbl-body">
-            {this.context.works.map((work) => (
-              <UserWorks
-                key={work.id}
-                id={work.id}
-                title={work.title}
-                content={work.content}
-                wordCount={work.wordcount}
-                handleDelete={this.context.handleDelete}
-                handleEdit={this.context.handleEdit}
-              />
-            ))}
+            {this.context.works.length > 0 ? (
+              this.context.works.map((work) => (
+                <UserWorks
+                  key={work.id}
+                  id={work.id}
+                  title={work.title}
+                  content={work.content}
+                  wordCount={work.wordcount}
+                  handleDelete={this.context.handleDelete}
+                  handleEdit={this.context.handleEdit}
+                />
+              ))
+            ) : (
+              <>"Awaiting user data..."</>
+            )}
           </tbody>
         </table>
       </div>

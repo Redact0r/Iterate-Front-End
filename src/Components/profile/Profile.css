@@ -27,6 +27,7 @@
 .edit-btn:hover {
   opacity: 1;
   background-color: rgb(88, 103, 171);
+  cursor: pointer;
 }
 
 .edit-btn {
@@ -47,6 +48,9 @@
   margin: 3em;
 }
 
+.div-myworks {
+  width: 50%;
+}
 .select-goal {
   font-size: 14pt;
   margin: 1em;
@@ -66,6 +70,9 @@ td {
   border-bottom: 1px solid white;
   margin: 1em;
   overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 40px;
+  white-space: nowrap;
 }
 
 table th {
