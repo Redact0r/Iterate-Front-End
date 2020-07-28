@@ -84,6 +84,9 @@ export class UserContextProvider extends Component {
     generateWorks() {
       this.generateWorks.bind(this);
     },
+    setStreak() {
+      this.setStreak.bind(this);
+    },
   };
 
   setStreak(streak) {
@@ -92,6 +95,7 @@ export class UserContextProvider extends Component {
 
   setUserId = (userid) => {
     this.setState({ userid });
+    localStorage.setItem("userid", userid);
   };
   handleEdit = (e, title, content, wordcount) => {
     let id = e.target.id.slice(9, e.target.id.length);
@@ -131,10 +135,11 @@ export class UserContextProvider extends Component {
     this.setState({
       wordCount: liveWordCount,
     });
+    //post and update streak via back-end
     if (this.state.wordCount >= this.state.DailyWritingGoal) {
-      streakService
-        .postStreak(this.context.userid)
-        .then((res) => this.setStreak({ streak: res.returnStreak }));
+      streakService.postStreak(this.context.userid).then((res) => {
+        this.setStreak(res.returnStreak);
+      });
     }
     this.handleAnimationKeypress(event);
     this.stopAnimate();
@@ -177,11 +182,12 @@ export class UserContextProvider extends Component {
 
   handleSave = (event) => {
     event.preventDefault();
-    if (this.state.currentWorkId == null) {
+    if (this.state.currentWorkId === null) {
       const newWorks = {
         title: this.state.boxTitle,
         content: this.state.boxContent,
         wordcount: this.state.wordCount,
+        user_id: this.state.userid || localStorage.getItem("userid"),
       };
       return IterateApi.post(newWorks);
     }
@@ -191,6 +197,7 @@ export class UserContextProvider extends Component {
         title: this.state.boxTitle,
         content: this.state.boxContent,
         wordcount: this.state.wordCount,
+        user_id: this.state.userid || localStorage.getItem("userid"),
       };
       IterateApi.patch(id, updatedObj);
     }
@@ -222,7 +229,7 @@ export class UserContextProvider extends Component {
   render() {
     const value = {
       isLoggedIn: this.state.isLoggedIn,
-      userid: this.state.userid,
+      userid: this.state.userid || localStorage.getItem("userid"),
       works: this.state.works,
       wordCount: this.state.wordCount,
       DailyWritingGoal: this.state.DailyWritingGoal,

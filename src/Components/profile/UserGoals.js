@@ -11,7 +11,7 @@ class UserGoals extends Component {
           handleDailyGoalSelector={this.props.handleDailyGoalSelector}
           selected={this.props.selected}
         />
-        <WritingCalendar />
+        {/* <WritingCalendar /> */}
       </div>
     );
   }

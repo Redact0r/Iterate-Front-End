@@ -15,7 +15,7 @@ const IterateApi = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newWorks),
     }).then((res) => {
-      if (!res.json()) {
+      if (!res.ok) {
         alert("Something went wrong");
       }
       alert("New work saved!");

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Write.css";
-import Message from "../Message";
+import Message from "../../Message";
 import UserContext from "../UserContext";
 
 class Write extends Component {

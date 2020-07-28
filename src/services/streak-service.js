@@ -1,11 +1,15 @@
-import config from "config";
+import config from "../config";
 
 const streakService = {
   checkStreak(userid) {
+    if (!userid) {
+      userid = localStorage.getItem("userid");
+    }
+    const postStreakObj = { userid: userid };
     return fetch(`${config.API_ENDPOINT}/streak/check`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(userid),
+      body: JSON.stringify(postStreakObj),
     }).then((res) =>
       !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json()
     );
@@ -16,10 +20,15 @@ const streakService = {
     );
   },
   postStreak(userid) {
+    if (!userid) {
+      userid = localStorage.getItem("userid");
+    }
+    const postStreakObj = { userid: userid };
+
     return fetch(`${config.API_ENDPOINT}/streak`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(userid),
+      body: JSON.stringify(postStreakObj),
     }).then((res) =>
       !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json()
     );

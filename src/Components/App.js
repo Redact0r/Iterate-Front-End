@@ -15,7 +15,7 @@ import AuthApiService from "../services/auth-service";
 import IdleService from "../services/idle-service";
 import IterateApi from "../Components/fetch/IterateApi";
 import streakService from "../services/streak-service";
-import Message from "./Message";
+import Message from "../Message";
 
 class App extends Component {
   static contextType = UserContext;
@@ -27,14 +27,10 @@ class App extends Component {
       TokenService.queueCallbackBeforeExpiry(() => {
         AuthApiService.postRefreshToken();
       });
-      streakService
-        .checkStreak(this.context.userid)
-        .then((res) => <Message message={res.message} isShow={true} />)
-        .then(() =>
-          streakService
-            .getStreak(this.context.userid)
-            .then((res) => this.context.setStreak(res.currentStreak))
-        );
+      streakService.checkStreak(this.context.userid).then((res) => {
+        <Message message={res.message} isShow={true} /> &&
+          this.context.setStreak(res.currentStreak);
+      });
     }
   }
 
