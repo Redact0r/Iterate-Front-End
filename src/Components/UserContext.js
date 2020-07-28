@@ -44,6 +44,9 @@ const UserContext = createContext({
   handleLogging: () => {},
   setUserId: () => {},
   setStreak: () => {},
+  setMessage: () => {},
+  resetMessage: () => {},
+  setStreakComplete: () => {},
 });
 
 export default UserContext;
@@ -74,6 +77,9 @@ export class UserContextProvider extends Component {
       Fox: false,
     },
     animationClassName: "",
+    message: "",
+    isShow: false,
+    streakComplete: false,
 
     handleDayCheck() {
       this.handleDayCheck.bind(this);
@@ -89,9 +95,22 @@ export class UserContextProvider extends Component {
     },
   };
 
-  setStreak(streak) {
+  resetMessage = () => {
+    this.setState({ message: "", isShow: false });
+  };
+
+  setMessage = (str) => {
+    this.setState({ message: str, isShow: true });
+  };
+
+  setStreak = (streak) => {
+    console.log("streak is", streak);
     this.setState({ streak });
-  }
+  };
+
+  setStreakComplete = (boolean) => {
+    this.setState({ streakComplete: boolean });
+  };
 
   setUserId = (userid) => {
     this.setState({ userid });
@@ -136,8 +155,17 @@ export class UserContextProvider extends Component {
       wordCount: liveWordCount,
     });
     //post and update streak via back-end
-    if (this.state.wordCount >= this.state.DailyWritingGoal) {
-      streakService.postStreak(this.context.userid).then((res) => {
+    if (
+      this.state.wordCount >= this.state.DailyWritingGoal &&
+      !this.state.streakComplete
+    ) {
+      let novelCount = 80000 / this.state.DailyWritingGoal;
+      let str = `Congrats! If you wrote like this every day, you would finish a novel
+      in ${novelCount} days!`;
+      this.setMessage(str);
+      this.setStreakComplete(true);
+
+      streakService.postStreak(this.state.userid).then((res) => {
         this.setStreak(res.returnStreak);
       });
     }
@@ -239,6 +267,9 @@ export class UserContextProvider extends Component {
       daysChecked: this.state.daysChecked,
       goalSelector: this.state.goalSelector,
       currentWorkId: this.state.currentWorkId,
+      message: this.state.message,
+      isShow: this.state.isShow,
+      streakComplete: this.state.streakComplete,
       handleSave: this.handleSave,
       handleTitleChange: this.handleTitleChange,
       handleContentChange: this.handleContentChange,
@@ -255,6 +286,9 @@ export class UserContextProvider extends Component {
       handleLogging: this.handleLogging,
       setUserId: this.setUserId,
       setStreak: this.setStreak,
+      setMessage: this.setMessage,
+      resetMessage: this.resetMessage,
+      setStreakComplete: this.setStreakComplete,
     };
     return (
       <UserContext.Provider value={value}>

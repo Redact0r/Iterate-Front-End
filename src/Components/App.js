@@ -27,10 +27,24 @@ class App extends Component {
       TokenService.queueCallbackBeforeExpiry(() => {
         AuthApiService.postRefreshToken();
       });
-      streakService.checkStreak(this.context.userid).then((res) => {
-        <Message message={res.message} isShow={true} /> &&
-          this.context.setStreak(res.currentStreak);
-      });
+      streakService
+        .checkStreak(this.context.userid)
+        .then((res) => {
+          let lastStreakDate = new Date(res.lastLogin);
+          console.log(lastStreakDate);
+          let today = new Date();
+          this.context.setMessage(res.message);
+          if (lastStreakDate.getDate() === today.getDate()) {
+            this.context.setStreakComplete(true);
+          } else {
+            this.context.setStreakComplete(false);
+          }
+        })
+        .then(() =>
+          streakService.getStreak(this.context.userid).then((res) => {
+            this.context.setStreak(res.currentStreak);
+          })
+        );
     }
   }
 
@@ -46,6 +60,7 @@ class App extends Component {
     return (
       <Router>
         <Nav />
+        <Message />
         <Switch>
           <Route path="/" exact component={Greeting} />
           <PrivateRoute path="/write" component={Write} />

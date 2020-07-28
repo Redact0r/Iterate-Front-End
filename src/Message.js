@@ -1,21 +1,18 @@
 import React, { Component } from "react";
+import UserContext from "./Components/UserContext";
 
 class Message extends Component {
-  state = {
-    message: this.props.message,
-    isShow: this.props.isShow,
-  };
-
+  static contextType = UserContext;
   handleClick(e) {
     e.preventDefault();
-    this.setState({ isShow: false, message: "" });
+    this.context.resetMessage();
   }
 
   renderMessage() {
     return (
       <div className="message">
         <p>flavicon</p>
-        <p>{this.state.message}</p>
+        <p>{this.context.message}</p>
         <button className="msg-btn" onClick={(e) => this.handleClick(e)}>
           X
         </button>
@@ -30,7 +27,7 @@ class Message extends Component {
   render() {
     return (
       <div className="message-container">
-        {this.state.isShow ? this.renderMessage() : this.renderBlank()}
+        {this.context.isShow ? this.renderMessage() : this.renderBlank()}
       </div>
     );
   }
