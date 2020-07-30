@@ -1,68 +1,100 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Application
 
-## Available Scripts
+Iterate
 
-In the project directory, you can run:
+# Developer
 
-### `npm start`
+Tyler Sharp
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Summary
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Some writers need external motivation to keep themselves accountable. Enter Iterate, an early-in-development application to gamify the writing experience.
+Each day you log in, you can set a goal. When you meet it, you earn a streak. If you don't write until the end of the next day, you lose your streak.
 
-### `npm test`
+You can also, save, edit, and delete your work - manage all your chapters or articles here!
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+"Write" now, the streak feature is the key feature of the application.
 
-### `npm run build`
+Future features will include:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Set goals for each day of the week.
+2. More styling options.
+3. Pomodoro timer
+4. Leaderboards and "multiplayer" writing competitions
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+# Links
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+You can find the live site here:
+https://project-blackburn-client.vercel.app/
 
-### `npm run eject`
+The back end can be contacted through this api:
+https://lower-goose-32788.herokuapp.com/api
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# How to use the API
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The api for this project lets you perform GET and POST requests to fetch from and contribute to the users, and story databases
+Here are some examples of how to use the API:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+(Unprotected Endpoint)GET /myworks?userid=userid
+(you will not be able to see your userid without web dev tools)
+Register: POST /signup - takes in user_name, password, full_name, nickname > Returns a bearer authentication token for the user
+Example request body:
+{
+user_name: "testuser",
+password: "Testpass01!",
+full_name: "Test User"
+nickname: "Mister Test"
+}
+My works: /myworks
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+GET requests need a userid in the query, which will return all works for that user.
 
-## Learn More
+POST requests must include {title, content, wordcount} and will be given a UUID.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+DELETE requests must include the UUID in the param, such as "/myworks/id/:id"
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+PATCH requests require a PATCH to the UUID, such as "/myworks/id:id" and must include {title, content, wordcount} to be changed
 
-### Code Splitting
+Streak:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+GET "/streak?userid=id" will return the current streak for the user
 
-### Analyzing the Bundle Size
+POST "/streak/check" requires a {userid} in the req body and adds a new streak. This also sets the last streak date for the user if none exists.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+# Screen shots
 
-### Making a Progressive Web App
+<img src="./src/Assets/iteratesnapshot1.png" width="500">
+<img src="./src/Assets/iteratesnapshot2.png" width="500">
+<img src="./src/Assets/iteratesnapshot3.png" width="500">
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+# Technologies used
 
-### Advanced Configuration
+This project was completed with the following technologies:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+1. React
+2. Javascript
+3. Node / Express
+4. PostgreSQL
+5. Mocha
+6. Chai
+7. Jest / Enzyme
 
-### Deployment
+## Development Set up
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+Complete the following steps to use this project:
 
-### `npm run build` fails to minify
+1. Clone this repository to your local machine `git clone NEW-PROJECTS-URL NEW-PROJECTS-NAME`
+2. `cd` into the cloned repository
+3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
+4. Install the node dependencies `npm install`
+5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Scripts
+
+Start the application `npm start`
+Start nodemon for the application `npm run dev`
+Run the tests `npm test`
+
+## Deploying
+
+When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
