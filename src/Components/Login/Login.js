@@ -14,13 +14,15 @@ class Login extends Component {
     },
   };
 
-  handleLoginSuccess = () => {
+  handleLoginSuccess = async () => {
     const { location, history } = this.props;
     const destination = (location.state || {}).from || "/";
     history.push(destination);
     this.context.handleLogging();
+    const userid =
+      this.context.userid || (await localStorage.getItem("userid"));
     streakService
-      .checkStreak(this.context.userid)
+      .checkStreak(userid)
       .then((res) => {
         let lastStreakDate = new Date(res.lastLogin);
         let today = new Date();
@@ -32,25 +34,25 @@ class Login extends Component {
         }
       })
       .then(() =>
-        streakService.getStreak(this.context.userid).then((res) => {
+        streakService.getStreak(userid).then((res) => {
           this.context.setStreak(res.currentStreak);
         })
       );
   };
 
-  handleSubmitJwtAuth = (ev) => {
+  handleSubmitJwtAuth = async (ev) => {
     ev.preventDefault();
     this.setState({ error: null });
     const { user_name, password } = ev.target;
 
-    AuthApiService.postLogin({
+    await AuthApiService.postLogin({
       user_name: user_name.value,
       password: password.value,
     })
-      .then((res) => {
+      .then(async (res) => {
         user_name.value = "";
         password.value = "";
-        this.context.setUserId(res.userid);
+        await this.context.setUserId(res.userid);
         this.handleLoginSuccess();
       })
       .catch((res) => {

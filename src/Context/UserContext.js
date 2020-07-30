@@ -179,11 +179,13 @@ export class UserContextProvider extends Component {
         wordcount: this.state.wordCount,
         user_id: this.state.userid || localStorage.getItem("userid"),
       };
-      return IterateApi.post(newWorks).then((res) =>
-        res.work
-          ? this.setMessage("New work saved!")
-          : this.setMessage(res.error)
-      );
+      return IterateApi.post(newWorks).then((res) => {
+        if (!res.work) {
+          return this.setMessage(res.error);
+        }
+        this.setState({ currentWorkId: res.work.id });
+        this.setMessage("New work saved!");
+      });
     }
     if (this.state.currentWorkdId !== null) {
       let id = this.state.currentWorkId;

@@ -13,7 +13,6 @@ import Signup from "../Signup/Signup";
 import TokenService from "../../services/token-service";
 import AuthApiService from "../../services/auth-service";
 import IdleService from "../../services/idle-service";
-import streakService from "../../services/streak-service";
 import Message from "../Message/Message";
 
 class App extends Component {
