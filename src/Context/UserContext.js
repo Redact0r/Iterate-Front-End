@@ -90,7 +90,6 @@ export class UserContextProvider extends Component {
   };
 
   setStreak = (streak) => {
-    console.log("streak is", streak);
     this.setState({ streak });
   };
 
@@ -194,7 +193,7 @@ export class UserContextProvider extends Component {
         wordcount: this.state.wordCount,
         user_id: this.state.userid || localStorage.getItem("userid"),
       };
-      IterateApi.patch(id, updatedObj);
+      IterateApi.patch(id, updatedObj).then((res) => this.setMessage(res));
     }
   };
 

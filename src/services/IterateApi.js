@@ -26,9 +26,7 @@ const IterateApi = {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedObj),
-    }).then(() => {
-      alert("Current work saved!");
-    });
+    }).then((res) => (res.ok ? "Your edits were saved" : res.error));
   },
 };
 export default IterateApi;
