@@ -1,5 +1,4 @@
-import TokenService from "../../services/token-service";
-import config from "../../config";
+import config from "../config";
 
 const IterateApi = {
   get(userid) {
@@ -14,12 +13,7 @@ const IterateApi = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newWorks),
-    }).then((res) => {
-      if (!res.ok) {
-        alert("Something went wrong");
-      }
-      alert("New work saved!");
-    });
+    }).then((res) => (res.error ? res.error : res.json()));
   },
   delete(id) {
     return fetch(`${config.API_ENDPOINT}/myworks/id/${id}`, {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import UserContext from "../UserContext";
+import UserContext from "../../Context/UserContext";
 
 class UserWorks extends Component {
   static contextType = UserContext;
@@ -10,27 +10,37 @@ class UserWorks extends Component {
         <td>{this.props.title}</td>
         <td>{this.props.content}</td>
         <td>{this.props.wordCount}</td>
-        <Link to="/write">
+        <td>
+          <Link to="/write">
+            <input
+              type="button"
+              id={`edit-btn-${this.props.id}`}
+              className="btn edit-btn"
+              value="Edit"
+              onClick={(e) => {
+                let title = this.props.title;
+                let content = this.props.content;
+                let wordcount = this.props.wordCount;
+                return this.context.handleEdit(e, title, content, wordcount);
+              }}
+            />
+          </Link>
+        </td>
+        <td>
           <input
             type="button"
-            id={`edit-btn-${this.props.id}`}
+            id={`btn-del-${this.props.id}`}
             className="btn edit-btn"
-            value="Edit"
-            onClick={(e) => {
-              let title = this.props.title;
-              let content = this.props.content;
-              let wordcount = this.props.wordCount;
-              return this.context.handleEdit(e, title, content, wordcount);
-            }}
+            value="Delete"
+            onClick={(e) =>
+              window.confirm("Delete this item?")
+                ? this.context.handleDelete(e)
+                : (e) => {
+                    e.preventDefault();
+                  }
+            }
           />
-        </Link>
-        <input
-          type="button"
-          id={`btn-del-${this.props.id}`}
-          className="btn edit-btn"
-          value="Delete"
-          onClick={this.props.handleDelete}
-        />
+        </td>
       </tr>
     );
   }

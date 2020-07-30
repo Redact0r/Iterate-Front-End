@@ -24,13 +24,15 @@ h2 {
 
 #writing-box {
   padding: 1em;
-  margin: 2em;
-  width: 800px;
+  margin-top: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
   height: 200px;
 }
 
 #box-title {
-  width: 90%;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   padding: 1em;
@@ -40,7 +42,7 @@ h2 {
 }
 
 .writing-btn {
-  width: 20%;
+  width: 50%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 1em;
@@ -63,35 +65,80 @@ h2 {
 }
 
 #pen {
-  position: absolute;
-  top: 50%;
-  left: 85%;
-  transform: translate(-50%, -50%);
-  font-size: 12px;
+  display: none;
 }
-.animate {
-  animation: jump 2s infinite;
+
+@media only screen and (min-width: 600px) {
+  #writing-box {
+    padding: 1em;
+    margin: 2em;
+    width: 600px;
+    height: 200px;
+  }
+
+  #box-title {
+    width: 90%;
+  }
+
+  .writing-btn {
+    width: 20%;
+  }
 }
-@keyframes jump {
-  0% {
-    transform: translate(-50%, -50%) scale(1.25, 0.75);
+
+@media only screen and (min-width: 800px) {
+  #writing-box {
+    padding: 1em;
+    margin: 2em;
+    width: 800px;
+    height: 200px;
   }
-  50% {
-    transform: translate(-50%, -150%) scale(1, 1);
+
+  #box-title {
+    width: 90%;
   }
-  55% {
-    transform: translate(-50%, -150%) rotate(15deg);
+
+  .writing-btn {
+    width: 20%;
   }
-  60% {
-    transform: translate(-50%, -150%) rotate(-15deg);
+
+  #pen {
+    display: block;
+    position: absolute;
+    top: 80%;
+    left: 85%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
   }
-  65% {
-    transform: translate(-50%, -150%) rotate(15deg);
+  .animate {
+    animation: jump 2s infinite;
   }
-  70% {
-    transform: translate(-50%, -150%) rotate(-15deg);
+  @keyframes jump {
+    0% {
+      transform: translate(-50%, -50%) scale(1.25, 0.75);
+    }
+    50% {
+      transform: translate(-50%, -150%) scale(1, 1);
+    }
+    55% {
+      transform: translate(-50%, -150%) rotate(15deg);
+    }
+    60% {
+      transform: translate(-50%, -150%) rotate(-15deg);
+    }
+    65% {
+      transform: translate(-50%, -150%) rotate(15deg);
+    }
+    70% {
+      transform: translate(-50%, -150%) rotate(-15deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1.25, 0.75);
+    }
   }
-  100% {
-    transform: translate(-50%, -50%) scale(1.25, 0.75);
+}
+
+@media only screen and (min-width: 1250px) {
+  #pen {
+    top: 50%;
   }
 }

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import DailyWritingGoal from "./DailyWritingGoal";
-import WritingCalendar from "./WritingCalendar";
 
 class UserGoals extends Component {
   render() {
@@ -11,7 +10,6 @@ class UserGoals extends Component {
           handleDailyGoalSelector={this.props.handleDailyGoalSelector}
           selected={this.props.selected}
         />
-        {/* <WritingCalendar /> */}
       </div>
     );
   }

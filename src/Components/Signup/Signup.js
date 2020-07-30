@@ -1,19 +1,32 @@
 import React, { Component } from "react";
 import AuthApiService from "../../services/auth-service";
+import UserContext from "../../Context/UserContext";
 
 class Signup extends Component {
+  static contextType = UserContext;
   static defaultProps = {
     history: {
       push: () => {},
     },
   };
 
+  state = { message: "", password: "", passwordsMatch: false };
+
   handleRegistrationSuccess = (user) => {
     const { history } = this.props;
     history.push("/login");
   };
 
-  state = { error: null };
+  handlePasswordMatch = (ev) => {
+    ev.preventDefault();
+    let confirmPass = ev.target.value;
+    confirmPass === this.state.password
+      ? this.setState({ message: "", passwordsMatch: true })
+      : this.setState({
+          message: "Passwords do not match",
+          passwordsMatch: false,
+        });
+  };
 
   handleSubmit = (ev) => {
     ev.preventDefault();
@@ -38,7 +51,7 @@ class Signup extends Component {
         this.handleRegistrationSuccess();
       })
       .catch((res) => {
-        this.setState({ error: res.error });
+        this.context.setMessage(res.error);
       });
   };
 
@@ -70,11 +83,31 @@ class Signup extends Component {
           <label htmlFor="password">Password</label>
           <input
             id="signup_password"
+            name="password"
             type="password"
             className="user signup pass"
             placeholder="Password"
+            onChange={(ev) => this.setState({ password: ev.target.value })}
           />
-          <button className="signup-btn" type="submit">
+          <label htmlFor="confirm-password">Confirm Password</label>
+          <input
+            id="confirm_password"
+            name="confirm"
+            type="password"
+            className="user signup confirm pass"
+            placeholder="Confirm Password"
+            onChange={(ev) => this.handlePasswordMatch(ev)}
+          />
+          {this.state.message}
+          <p>
+            Passwords must be at least 8 letters, contain one uppercase letter,
+            special character, and number
+          </p>
+          <button
+            className="signup-btn"
+            type="submit"
+            disabled={!this.state.passwordsMatch}
+          >
             Sign Up
           </button>
         </form>

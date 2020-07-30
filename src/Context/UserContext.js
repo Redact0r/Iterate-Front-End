@@ -1,11 +1,11 @@
 import React, { Component, createContext } from "react";
-import IterateApi from "./fetch/IterateApi";
+import IterateApi from "../services/IterateApi";
 import TokenService from "../services/token-service";
 import streakService from "../services/streak-service";
 
 const UserContext = createContext({
   isLoggedIn: TokenService.hasAuthToken(),
-  userid: null,
+  userid: null || localStorage.getItem("userid"),
   works: [],
   wordCount: 0,
   animationClassName: "",
@@ -53,7 +53,7 @@ export default UserContext;
 
 export class UserContextProvider extends Component {
   state = {
-    userid: null,
+    userid: null || localStorage.getItem("userid"),
     works: [],
     wordCount: 0,
     DailyWritingGoal: 500,
@@ -61,21 +61,7 @@ export class UserContextProvider extends Component {
     currentWorkId: null,
     boxTitle: "",
     boxContent: "",
-    daysChecked: {
-      M: false,
-      T: false,
-      W: false,
-      R: false,
-      F: false,
-      S: false,
-      U: false,
-    },
-    goalSelector: {
-      Hemingway: true,
-      Ballard: false,
-      King: false,
-      Fox: false,
-    },
+    goalSelector: "",
     animationClassName: "",
     message: "",
     isShow: false,
@@ -126,27 +112,14 @@ export class UserContextProvider extends Component {
     });
   };
 
-  generateWorks = (works) => {
-    this.setState({ works });
+  generateWorks = () => {
+    IterateApi.get(this.state.userid).then((works) => this.setState({ works }));
   };
 
   handleDelete(e) {
     let id = e.target.id.slice(8, e.target.id.length);
-    IterateApi.delete(id);
+    IterateApi.delete(id).then(() => this.generateWorks());
   }
-
-  handleDayCheck = (e) => {
-    let day = e.target.value;
-    let allDays = { ...this.state.daysChecked };
-    if (allDays[day] === true) {
-      allDays[day] = false;
-    } else if (allDays[day] === false) {
-      allDays[day] = true;
-    }
-    this.setState({
-      daysChecked: allDays,
-    });
-  };
 
   handleKeypress = (event) => {
     let eventString = event.target.value;
@@ -174,21 +147,11 @@ export class UserContextProvider extends Component {
   };
 
   handleDailyGoalSelector = (event) => {
-    let authorName = event.target.value.slice(5, event.target.value.length);
     let getWordCount = event.target.value.slice(0, 4);
     let goalWordCount = parseInt(getWordCount, 10);
-    let currentGoalState = { ...this.state.goalSelector };
-    let goalSelectorKeys = Object.keys(currentGoalState);
-    for (let i = 0; i < goalSelectorKeys.length; i++) {
-      if (authorName == goalSelectorKeys[i]) {
-        currentGoalState[`${goalSelectorKeys[i]}`] = true;
-      } else {
-        currentGoalState[`${goalSelectorKeys[i]}`] = false;
-      }
-    }
     this.setState({
       DailyWritingGoal: goalWordCount,
-      goalSelector: currentGoalState,
+      goalSelector: event.target.value,
     });
   };
 
@@ -217,7 +180,11 @@ export class UserContextProvider extends Component {
         wordcount: this.state.wordCount,
         user_id: this.state.userid || localStorage.getItem("userid"),
       };
-      return IterateApi.post(newWorks);
+      return IterateApi.post(newWorks).then((res) =>
+        res.work
+          ? this.setMessage("New work saved!")
+          : this.setMessage(res.error)
+      );
     }
     if (this.state.currentWorkdId !== null) {
       let id = this.state.currentWorkId;
@@ -264,7 +231,6 @@ export class UserContextProvider extends Component {
       streak: this.state.streak,
       boxTitle: this.state.boxTitle,
       boxContent: this.state.boxContent,
-      daysChecked: this.state.daysChecked,
       goalSelector: this.state.goalSelector,
       currentWorkId: this.state.currentWorkId,
       message: this.state.message,
@@ -275,7 +241,6 @@ export class UserContextProvider extends Component {
       handleContentChange: this.handleContentChange,
       handleDailyGoalSelector: this.handleDailyGoalSelector,
       handleKeypress: this.handleKeypress,
-      handleDayCheck: this.handleDayCheck,
       handleStartNew: this.handleStartNew,
       handleDelete: this.handleDelete,
       handleEdit: this.handleEdit,

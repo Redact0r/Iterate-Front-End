@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Adds DailyWritingGoal to dom without crashing renders without crashing 1`] = `null`;
+
+exports[`Adds Greeting to dom without crashing renders without crashing 1`] = `null`;

@@ -1,6 +1,7 @@
 import config from "../config";
 import TokenService from "./token-service";
 import IdleService from "./idle-service";
+require("dotenv").config();
 
 const AuthApiService = {
   postUser(user) {

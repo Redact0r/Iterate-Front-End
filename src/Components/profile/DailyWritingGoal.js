@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import UserContext from "../UserContext";
+import UserContext from "../../Context/UserContext";
 
 export default class DailyWritingGoal extends Component {
   static contextType = UserContext;
@@ -11,33 +11,18 @@ export default class DailyWritingGoal extends Component {
           className="select-goal"
           id="daily-goal-selector"
           onChange={this.context.handleDailyGoalSelector}
+          defaultValue={this.context.goalSelector}
         >
-          <option
-            id="Hemingway"
-            value="0500 Hemingway"
-            selected={this.context.goalSelector.Hemingway}
-          >
+          <option id="Hemingway" value="0500 Hemingway">
             Hemingway - 500 Words
           </option>
-          <option
-            id="Ballard"
-            value="1000 Ballard"
-            selected={this.context.goalSelector.Ballard}
-          >
+          <option id="Ballard" value="1000 Ballard">
             Ballard - 1000 Words
           </option>
-          <option
-            id="King"
-            value="2000 King"
-            selected={this.context.goalSelector.King}
-          >
+          <option id="King" value="2000 King">
             Stephen King - 2000 Words
           </option>
-          <option
-            id="Fox"
-            value="5000 Fox"
-            selected={this.context.goalSelector.Fox}
-          >
+          <option id="Fox" value="5000 Fox">
             Chris Fox - 5000 Words
           </option>
         </select>

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import UserContext from "./Components/UserContext";
+import UserContext from "../../Context/UserContext";
+import favicon from "../../Assets/Icons/favicon-32x32.png";
+import "./Message.css";
 
 class Message extends Component {
   static contextType = UserContext;
@@ -11,10 +13,10 @@ class Message extends Component {
   renderMessage() {
     return (
       <div className="message">
-        <p>flavicon</p>
+        <img src={favicon} alt="writing hand favicon" />
         <p>{this.context.message}</p>
         <button className="msg-btn" onClick={(e) => this.handleClick(e)}>
-          X
+          Okay!
         </button>
       </div>
     );

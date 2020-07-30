@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import UserWorks from "./UserWorks";
-import UserContext from "../UserContext";
-import IterateApi from "../fetch/IterateApi";
+import UserContext from "../../Context/UserContext";
 
 class UserWorksList extends Component {
   static contextType = UserContext;

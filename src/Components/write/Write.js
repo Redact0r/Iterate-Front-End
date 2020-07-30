@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Write.css";
-import UserContext from "../UserContext";
+import UserContext from "../../Context/UserContext";
 
 class Write extends Component {
   static contextType = UserContext;

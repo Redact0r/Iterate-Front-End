@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import TokenService from "../../src/services/token-service";
-import IdleService from "../../src/services/idle-service";
-import UserContext from "../Components/UserContext";
+import TokenService from "../../services/token-service";
+import IdleService from "../../services/idle-service";
+import UserContext from "../../Context/UserContext";
 
 class Nav extends Component {
   static contextType = UserContext;
@@ -17,7 +17,7 @@ class Nav extends Component {
   renderLogoutLink() {
     return (
       <div className="Header__logged-in">
-        <Link onClick={this.handleLogoutClick} to="/">
+        <Link className=".navlinks" onClick={this.handleLogoutClick} to="/">
           Logout
         </Link>
       </div>
@@ -27,7 +27,9 @@ class Nav extends Component {
   renderLoginLink() {
     return (
       <div className="Header__not-logged-in">
-        <Link to="/login">Login</Link>
+        <Link className=".navlinks" to="/login">
+          Login
+        </Link>
       </div>
     );
   }
@@ -40,8 +42,12 @@ class Nav extends Component {
         {TokenService.hasAuthToken()
           ? this.renderLogoutLink()
           : this.renderLoginLink()}
-        <Link to="/write">Write</Link>
-        <Link to="/profile">Profile</Link>
+        <Link className=".navlinks" to="/write">
+          Write
+        </Link>
+        <Link className=".navlinks" to="/profile">
+          Profile
+        </Link>
       </nav>
     );
   }

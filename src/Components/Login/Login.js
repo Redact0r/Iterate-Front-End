@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthApiService from "../../services/auth-service";
-import UserContext from "../UserContext";
-import IterateApi from "../fetch/IterateApi";
+import UserContext from "../../Context/UserContext";
+import streakService from "../../services/streak-service";
 import "./Login.css";
 
 class Login extends Component {
@@ -13,13 +13,29 @@ class Login extends Component {
       push: () => {},
     },
   };
-  state = { error: null };
 
   handleLoginSuccess = () => {
     const { location, history } = this.props;
     const destination = (location.state || {}).from || "/";
     history.push(destination);
     this.context.handleLogging();
+    streakService
+      .checkStreak(this.context.userid)
+      .then((res) => {
+        let lastStreakDate = new Date(res.lastLogin);
+        let today = new Date();
+        this.context.setMessage(res.message);
+        if (lastStreakDate.getDate() === today.getDate()) {
+          this.context.setStreakComplete(true);
+        } else {
+          this.context.setStreakComplete(false);
+        }
+      })
+      .then(() =>
+        streakService.getStreak(this.context.userid).then((res) => {
+          this.context.setStreak(res.currentStreak);
+        })
+      );
   };
 
   handleSubmitJwtAuth = (ev) => {
@@ -38,7 +54,7 @@ class Login extends Component {
         this.handleLoginSuccess();
       })
       .catch((res) => {
-        this.setState({ error: res.error });
+        this.context.setMessage(res.error);
       });
   };
 

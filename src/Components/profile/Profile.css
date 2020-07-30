@@ -7,23 +7,18 @@
 }
 
 .div-dailywritinggoal {
-  margin: 2em;
-  padding: 1em;
+  margin: auto;
+  padding: auto;
+}
+
+.div-goals {
+  margin: auto;
 }
 
 .day-btn {
   display: none;
 }
-.day-btn-label {
-  padding: 1em;
-  margin: 1em;
-  border: 1px solid white;
-  border-radius: 50pt;
-  opacity: 0.8;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-}
 
-.day-btn-label:hover,
 .edit-btn:hover {
   opacity: 1;
   background-color: rgb(88, 103, 171);
@@ -32,7 +27,7 @@
 
 .edit-btn {
   padding: 1em;
-  margin: 1em;
+  margin: 0.2em;
   border: 1px solid white;
   border-radius: 50pt;
   opacity: 0.8;
@@ -44,16 +39,12 @@
   opacity: 1;
 }
 
-.div-writingcalendar {
-  margin: 3em;
-}
-
 .div-myworks {
-  width: 50%;
+  width: 100%;
 }
 .select-goal {
   font-size: 14pt;
-  margin: 1em;
+  margin: 1em auto;
   padding: 1em;
   opacity: 1;
   background-color: rgb(70, 83, 140);
