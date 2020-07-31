@@ -68,8 +68,8 @@ POST "/streak/check" requires a {userid} in the req body and adds a new streak. 
 # Screen shots
 
 <img src="https://raw.githubusercontent.com/Redact0r/Iterate-Front-End/master/src/Assets/Screenshots/iteratesnapshot1.PNG" width="500">
-<img src="https://raw.githubusercontent.com/Redact0r/Iterate-Front-End/master/src/Assets/Screenshots/iteratesnapshot2.png" width="500">
-<img src="https://raw.githubusercontent.com/Redact0r/Iterate-Front-End/master/src/Assets/Screenshots/iteratesnapshot3.png" width="500">
+<img src="https://raw.githubusercontent.com/Redact0r/Iterate-Front-End/master/src/Assets/Screenshots/iteratesnapshot2.PNG" width="500">
+<img src="https://raw.githubusercontent.com/Redact0r/Iterate-Front-End/master/src/Assets/Screenshots/iteratesnapshot3.PNG" width="500">
 
 # Technologies used
 
