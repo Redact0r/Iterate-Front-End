@@ -10,16 +10,29 @@ class Signup extends Component {
     },
   };
 
-  state = { message: "", password: "", passwordsMatch: false };
+  state = { message: "", password: "", confirmPass: "", passwordsMatch: false };
 
   handleRegistrationSuccess = (user) => {
     const { history } = this.props;
     history.push("/login");
   };
 
+  handleInitialPassword = (ev) => {
+    ev.preventDefault();
+    let password = ev.target.value;
+    this.setState({ password });
+    password === this.state.confirmPass
+      ? this.setState({ message: "", passwordsMatch: true })
+      : this.setState({
+          message: "Passwords do not match",
+          passwordsMatch: false,
+        });
+  };
+
   handlePasswordMatch = (ev) => {
     ev.preventDefault();
     let confirmPass = ev.target.value;
+    this.setState({});
     confirmPass === this.state.password
       ? this.setState({ message: "", passwordsMatch: true })
       : this.setState({
@@ -87,7 +100,7 @@ class Signup extends Component {
             type="password"
             className="user signup pass"
             placeholder="Password"
-            onChange={(ev) => this.setState({ password: ev.target.value })}
+            onChange={(ev) => this.handleInitialPassword(ev)}
           />
           <label htmlFor="confirm-password">Confirm Password</label>
           <input
